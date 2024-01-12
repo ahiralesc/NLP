@@ -34,8 +34,9 @@ from nltk.tokenize import word_tokenize
 
 medicTrie = Trie()
 humanTrie = Trie()
-medicTrie.read_trie("/root/homeDir/mosby/corpus/mosbyTrie.csv")
-humanTrie.read_trie("/root/homeDir/mosby/corpus/humanTrie.csv")
+# Pending: Add arguments for the tries' directories.
+medicTrie.read_trie("trie directory")
+humanTrie.read_trie("trie directory")
 
 
 
@@ -105,7 +106,7 @@ def tokenFix(file):
 	"""
  
 	Token fix is a new function that is used to correct any conversion errors during the
-	.pdf to .txt convertion. It uses a dual-trie that checks if a the token is a word in the dictionary and
+	.pdf to .txt conversion. It uses a dual-trie that checks if a the token is a word in the dictionary and
 	needs to be edited. 
 	
 	fNone (file object) and non (list object) are used for testing, in order to write the tokens that
@@ -147,8 +148,7 @@ def tokenFix(file):
    			Checks if any element of the splitted token is in the dual-trie
    			If it is, then the splitted token is inserted into the main tokens list
 			If it isn't, then the token is written in the non list.
-
-      		"""
+      			"""
 			if any((t in medicTrie.trie or t in humanTrie.trie) for t in TokenSplit):
    
 				tokens[index] = TokenSplit[0]
@@ -163,11 +163,11 @@ def tokenFix(file):
 	
 		i += 1
   
-		# A little print statement used to know the progress of the convertion
+		# A little print statement used to check the progress of the convertion
 		if(i % 1000 == 0):
 			print(F"{i} / {len(tokens)}")
-
-	fNone = open("/root/homeDir/mosby/corpus/nonefound.txt", "a", encoding="utf-8")
+	# Same as the tries.
+	fNone = open("NoneFile directory", "a", encoding="utf-8")
 	fNone.write("\n".join(nonFound for nonFound in non))
 	fNone.close
 
